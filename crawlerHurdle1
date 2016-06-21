@@ -1,0 +1,17 @@
+# http://www.heibanke.com/lesson/crawler_ex00/ The first crawler hurdle.
+
+baseUrl = 'http://www.heibanke.com/lesson/crawler_ex00/'
+import re
+import urllib
+def getNum(url):
+    page = urllib.urlopen(url)
+    html = page.read()
+    reg = r'\d{5}'
+    num = re.findall(reg, html)
+    return num[1]
+url = baseUrl    
+for i in range(200):
+    num = getNum(url)
+    url = baseUrl+num
+    print ('running',i)
+    print (url)
