@@ -8,10 +8,14 @@ def getNum(url):
     html = page.read()
     reg = r'\d{5}'
     num = re.findall(reg, html)
-    return num[1]
+    return num
 url = baseUrl    
 for i in range(200):
     num = getNum(url)
-    url = baseUrl+num
-    print ('running',i)
-    print (url)
+    if len(num)==4:
+        url = baseUrl+num[1]
+        print ('running',i)
+        print (url)
+    else:
+        print ('Done',',the right answer is',url)
+        break
