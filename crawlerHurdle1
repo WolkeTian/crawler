@@ -2,20 +2,23 @@
 
 baseUrl = 'http://www.heibanke.com/lesson/crawler_ex00/'
 import re
-import urllib
+import urllib.request as urlmod
 def getNum(url):
-    page = urllib.urlopen(url)
-    html = page.read()
-    reg = r'\d{5}'
-    num = re.findall(reg, html)
+    page = urlmod.urlopen(url)
+    html = str(page.read())
+    reg = r'\\x\w{2}(\d{5}).*</h3>\\n'
+    reg = re.compile(reg)
+    num = reg.findall(html)
     return num
-url = baseUrl    
-for i in range(200):
+url = baseUrl
+times = 0
+while True:
     num = getNum(url)
-    if len(num)==4:
-        url = baseUrl+num[1]
-        print ('running',i)
+    try:
+        url = baseUrl+num[0]
+        print ('running',times,'times')
+        times += 1
         print (url)
-    else:
+    except IndexError:
         print ('Done',',the right answer is',url)
         break
